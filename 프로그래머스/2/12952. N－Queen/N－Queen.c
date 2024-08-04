@@ -1,21 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <unistd.h>
-
-int	ans_print(int array[], int i, int n)
-{
-	char	c;
-
-	while (i < n)
-	{
-		c = array[i] + '0';
-		write(1, &c, 1);
-		i++;
-	}
-	write(1, "\n", 1);
-	return (1);
-}
 
 int	queen_ck(int array[], int row, int column)
 {
@@ -41,7 +26,6 @@ void	recursive(int array[], int *count, int row, int column, int n)
 
 	if (column == n)
 	{
-		ans_print(array, 0, n);
 		*count += 1;
 		return ;
 	}
