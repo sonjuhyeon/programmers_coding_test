@@ -22,7 +22,6 @@ def solution(m, n, startX, startY, balls):
         x_dis2 = get_distance(m, startX, ball[0], startY, ball[1])
         y_dis2 = abs(ball[1] - startY)
         dis2 = (x_dis2 ** 2) + (y_dis2 ** 2)
-        print("---", dis1, dis2,"---")
         
         if (dis1 < dis2):
             answer.append(dis1)
