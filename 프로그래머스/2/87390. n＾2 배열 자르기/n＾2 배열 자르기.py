@@ -1,5 +1,12 @@
 import math as m
 
+def input_row(start_col, end_col, row, res):
+    for i in range(start_col, end_col):
+        if row >= i:
+            res.append(row + 1)
+        else:
+            res.append(i + 1)
+
 def solution(n, left, right):
     answer = []
     left_row = m.floor(left / n)
@@ -8,30 +15,14 @@ def solution(n, left, right):
     right_col = right % n
     
     if left_row == right_row:
-        for i in range(left_col, right_col + 1):
-            if left_row >= i:
-                answer.append(left_row + 1)
-            else:
-                answer.append(i + 1)
+        input_row(left_col, right_col + 1, left_row, answer)
         return (answer)
     
-    for i in range(left_col, n):
-        if left_row >= i:
-            answer.append(left_row + 1)
-        else:
-            answer.append(i + 1)
+    input_row(left_col, n, left_row, answer)
     
     for i in range(left_row + 1, right_row):
-        for j in range(n):
-            if j <= i:
-                answer.append(i + 1)
-            else:
-                answer.append(j + 1)
+        input_row(0, n, i, answer)
                 
-    for i in range(right_col + 1):
-        if i <= right_row:
-            answer.append(right_row + 1)
-        else:
-            answer.append(i + 1)
+    input_row(0, right_col + 1, right_row, answer)
         
     return answer
