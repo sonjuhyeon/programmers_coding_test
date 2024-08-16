@@ -1,11 +1,16 @@
+def check(i):
+    if i % 5 == 2:
+        return False
+    if i < 5:
+        return True
+    
+    return check(i // 5)
+
 def solution(n, l, r):
     answer = 0
-    for i in range(l - 1, r):
-        j = i
-        while j > 0:
-            j, mod = divmod(j, 5)
-            if mod == 2:
-                break
-        else:
+
+    for l in range(l-1, r):
+        if check(l):
             answer += 1
+
     return answer
