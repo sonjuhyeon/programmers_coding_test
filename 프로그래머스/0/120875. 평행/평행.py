@@ -10,6 +10,5 @@ def solution(dots):
                     continue
                 return 1
             ratio[tmp] = [[dots[i][0], dots[i][1]], [dots[j + 1][0], dots[j + 1][1]]]
-            print(ratio[tmp][0], ratio[tmp][1])
     answer = 0
     return answer
