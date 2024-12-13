@@ -1,79 +1,59 @@
 import math
 
-def create_down_steps(n):
-    result = []
-    first_element = 0
-    second_element = 0
-    
-    for i in range(n):
-        result.append([first_element, second_element])
-        first_element += 2
-        second_element += 1
-    
-    return result
-
-def create_right_steps(n):
-    result = []
-    first_element = -1
-    second_element = 1
-    for i in range(n):
-        result.append([first_element, second_element])
-        first_element -= 1
-        second_element += 1
-    return result
-
-def create_up_steps(n):
-    result = []
-    first_element = -2
-    second_element = -1
-    for i in range(n):
-        result.append([first_element, second_element])
-        first_element -= 1
-        second_element -= 1
-    return result
-
-def insert_down(snail_arr, start_position, val_to_insert):
-    row = start_position[0]
-    col = start_position[1]
+# down, right, up 방향으로 값을 삽입하는 함수
+def insert(snail_arr, start_position, val_to_insert, direction):
+    row, col = start_position
     for i in val_to_insert:
         snail_arr[row][col] = i
-        row += 1
-        
-def insert_right(snail_arr, start_position, val_to_insert):
-    row = start_position[0]
-    col = start_position[1]
-    for i in val_to_insert:
-        snail_arr[row][col] = i
-        col += 1
-        
-def insert_up(snail_arr, start_position, val_to_insert):
-    row = start_position[0]
-    col = start_position[1]
-    for i in val_to_insert:
-        snail_arr[row][col] = i
-        row -= 1
+        if direction == 'down':
+            row += 1
+        elif direction == 'right':
+            col += 1
+        elif direction == 'up':
+            row -= 1
 
+# down, right, up 방향에 대한 step을 생성하는 함수
+def create_steps(direction, n):
+    result = []
+    if direction == 'down':
+        first_element, second_element = 0, 0
+        for _ in range(n):
+            result.append([first_element, second_element])
+            first_element += 2
+            second_element += 1
+    elif direction == 'right':
+        first_element, second_element = -1, 1
+        for _ in range(n):
+            result.append([first_element, second_element])
+            first_element -= 1
+            second_element += 1
+    elif direction == 'up':
+        first_element, second_element = -2, -1
+        for _ in range(n):
+            result.append([first_element, second_element])
+            first_element -= 1
+            second_element -= 1
+    return result
 
 def solution(n):
-    snail_arr = []
-    for i in range(1, n + 1):
-        snail_arr.append([0] * i)
+    # 나선형 배열을 만들기 위한 2D 배열 초기화
+    snail_arr = [[0] * (i + 1) for i in range(n)]
 
-    down_steps = create_down_steps(math.ceil(n / 3))
-    right_steps = create_right_steps(math.ceil(n / 3) if n % 3 == 2 else n // 3)
-    up_steps = create_up_steps(n // 3)
+    # 방향별 step을 생성
+    down_steps = create_steps('down', math.ceil(n / 3))
+    right_steps = create_steps('right', math.ceil(n / 3) if n % 3 == 2 else n // 3)
+    up_steps = create_steps('up', n // 3)
 
     count = 1
+    steps = [down_steps, right_steps, up_steps]
+    direction = 0  # 0: down, 1: right, 2: up
+    
+    # 나선형으로 숫자 배치
     for i, v in enumerate(range(n, 0, -1)):
         lst = list(range(count, count + v))
         count += v
-        if i % 3 == 0:
-            insert_down(snail_arr, down_steps[i // 3], lst)
-        elif i % 3 == 1:
-            insert_right(snail_arr, right_steps[i // 3], lst)
-        else:
-            insert_up(snail_arr, up_steps[i // 3], lst)
-            
-    answer = [item for sublist in snail_arr for item in sublist]
-    
-    return answer
+        insert(snail_arr, steps[direction][i // 3], lst, ['down', 'right', 'up'][direction])
+        direction = (direction + 1) % 3  # 방향 전환 (down -> right -> up)
+
+    # 2D 리스트를 1D 리스트로 변환
+    return [item for sublist in snail_arr for item in sublist]
