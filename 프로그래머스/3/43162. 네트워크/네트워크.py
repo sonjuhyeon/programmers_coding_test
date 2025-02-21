@@ -1,112 +1,33 @@
-####################################################
-####################################################
-#                    UNION-FIND                    #
-####################################################
-####################################################
-def get_parent(v, arr):
-    if arr[v] == v:
-        return v
-    else:
-        return get_parent(arr[v],arr)
-
-def union_parent(a,b, arr):
-    a = get_parent(a, arr)
-    b = get_parent(b, arr)
-    if a<b:
-        arr[b] = arr[a]
-    else:
-        arr[a] = arr[b]
-
-def find_parent(a,b, arr):
-    a = get_parent(a,arr)
-    b = get_parent(b,arr)
-    if a==b:
-        return 1
-    else:
-        return 0
+def dfs(v, visited, computers):
+    """
+    DFS를 사용하여 연결된 네트워크(그래프)를 탐색하는 함수.
+    방문한 노드를 visited 집합에 추가하고, 연결된 노드를 재귀적으로 탐색.
+    
+    :param v: 현재 방문 중인 노드 (컴퓨터 번호)
+    :param visited: 방문한 노드 집합
+    :param computers: 네트워크 연결 정보를 담은 인접 행렬
+    """
+    visited.add(v)  # 현재 노드를 방문했다고 표시
+    for i in range(len(computers)):  # 모든 노드(컴퓨터) 탐색
+        if computers[v][i] == 1 and i not in visited:  # 연결된 노드이며 방문하지 않았다면
+            dfs(i, visited, computers)  # DFS 재귀 호출
 
 
 def solution(n, computers):
-    answer = 1
-    arr = []
-    for i in range(n):
-        arr.append(i)
-    for i in range(n):
-        for j in range(n):
-            if i == j:
-                continue
-            elif computers[i][j] == 1:
-                union_parent(i,j,arr)
+    """
+    주어진 네트워크(인접 행렬)에서 네트워크 개수를 구하는 함수.
 
-    ans = set()
-    for i in range(n):
-        ans.add(get_parent(i,arr))
-    return len(ans)
+    :param n: 컴퓨터의 개수 (노드의 개수)
+    :param computers: 네트워크 연결 정보를 담은 n x n 인접 행렬
+    :return: 네트워크 개수 (연결된 그래프 개수)
+    """
+    visited = set()  # 방문한 노드를 저장하는 집합 (set)
+    count = 0  # 네트워크 개수를 저장하는 변수
 
+    for i in range(n):  # 모든 노드(컴퓨터)에 대해 확인
+        if i not in visited:  # 방문하지 않은 노드라면
+            dfs(i, visited, computers)  # DFS 실행 (연결된 네트워크 탐색)
+            count += 1  # 탐색이 끝나면 네트워크 개수 증가
 
+    return count  # 네트워크 개수 반환
 
-
-#########################################################
-#########################################################
-#                         DFS                           #
-#########################################################
-#########################################################
-def solution(n, computers):
-    answer = 0
-    arr = [[] for i in range(n)]
-    for i in range(n):
-        for j in range(i+1,n):
-            if computers[i][j] == 1:
-                arr[i].append(j)
-                arr[j].append(i)
-    visited = []
-    def dfs(v,visited,arr):
-        if v not in visited:
-            visited.append(v)
-        for i in arr[v]:
-            if i not in visited:
-                visited = dfs(i,visited,arr)
-        return visited
-    count = 0
-    for i in range(n):
-        if i not in visited:
-            visited = dfs(i,visited,arr)
-            count+=1
-
-    return count
-
-
-
-#########################################################
-#########################################################
-#                         BFS                           #
-#########################################################
-#########################################################
-from collections import deque
-def solution(n, computers):
-    answer = 0
-    arr = [[] for i in range(n)]
-    for i in range(n):
-        for j in range(i+1,n):
-            if computers[i][j] == 1:
-                arr[i].append(j)
-                arr[j].append(i)
-
-    def bfs(v, visited, arr):
-        queue = deque()
-        if v not in visited:
-            visited.append(v)
-            queue.append(v)
-        while queue:
-            target = queue.popleft()
-            for i in arr[target]:
-                if i not in visited:
-                    queue.append(i)
-                    visited.append(i)
-        return visited
-    visited = []
-    for i in range(n):
-        if i not in visited:
-            visited = bfs(i, visited, arr)
-            answer+=1
-    return answer
