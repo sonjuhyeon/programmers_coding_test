@@ -18,7 +18,7 @@ def check_sq(max_size, park, row, col):
     return max_size
 
 def solution(mats, park):
-    square = []
+    square = [0]
     ans_list = []
     row = 0,
     col = 0
@@ -30,7 +30,8 @@ def solution(mats, park):
         for r in range(0, y_size):
             if park[r][c] == '-1':
                 max_size = min(x_size - c, y_size - r) # 현 위치에서 가장 큰 정사각형 크기
-                square.append(check_sq(max_size, park, r, c))
+                if max(square) < max_size:
+                    square.append(check_sq(max_size, park, r, c))
     
     max_sq = max(square)
     for m in mats:
