@@ -17,7 +17,7 @@ def check_outside(storage, row, col):
             is_outside = True
         for i in range(4):
             nr, nc = r + dr[i], c + dc[i]
-            if 0 <= nr < row_len and 0 <= nc < col_len:
+            if 0 <= nr < row_len and 0 <= nc < col_len: # out of range check
                 if storage[nr][nc] == 0:
                     is_outside = True  # 외부와 연결됨
                 elif storage[nr][nc] == 1 and (nr, nc) not in visited:
