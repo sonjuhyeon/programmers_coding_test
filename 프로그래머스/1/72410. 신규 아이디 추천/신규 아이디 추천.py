@@ -5,9 +5,7 @@ def solution(new_id):
     for i in range(len(new_id) - 1, -1, -1):
         if not (new_id[i].islower() or
                 new_id[i].isdigit() or
-                new_id[i] == '-' or 
-                new_id[i] == '_' or 
-                new_id[i] == '.'):
+                new_id[i] in ['-', '_', '.']):
             new_id.pop(i)
     
     for i in range(len(new_id) - 1, -1, -1):
