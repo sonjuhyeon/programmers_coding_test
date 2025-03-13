@@ -1,10 +1,10 @@
 # [level 2] N-Queen - 12952 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12952?language=c) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12952?language=python3) 
 
 ### 성능 요약
 
-메모리: 3.66 MB, 시간: 98.92 ms
+메모리: 9.26 MB, 시간: 9300.38 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 08월 04일 09:08:26
+2025년 03월 14일 02:08:27
 
 ### 문제 설명
 
