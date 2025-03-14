@@ -1,27 +1,20 @@
-from collections import deque
+class DFS:
+    answer = 0
+    def count_diff(self, word1, word2):
+        length = len(word1)
+        return sum([1 for i in range(length) if word1[i] != word2[i]])
+
+    def run(self, n, words, now, target):
+        if now == target:
+            self.answer = n if self.answer == 0 else min(n, self.answer)
+            return
+        for w in words:
+            if self.count_diff(now, w) == 1:
+                temp = words.copy()
+                temp.remove(w)
+                self.run(n+1, temp, w,target)
 
 def solution(begin, target, words):
-    answer = 0
-    
-    if target not in words:
-        return answer
-    
-    dq = deque()
-    dq.append((begin, 0))
-    
-    while dq:
-        visited = [0] * len(words)
-        word, answer = dq.popleft()
-        if word == target:
-            break
-        for i in range(len(words)):
-            for j in range(len(words[i])):
-                if word[j] == words[i][j]:
-                    visited[i] += 1
-                    
-        for k in range(len(visited)):
-            if visited[k] == (len(target) - 1):
-                dq.append((words[k], answer + 1))
-                words[k] = str(answer)
-    
-    return answer
+    d = DFS()
+    d.run(0, words, begin, target)
+    return d.answer
