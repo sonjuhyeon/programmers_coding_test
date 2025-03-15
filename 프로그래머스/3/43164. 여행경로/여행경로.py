@@ -14,7 +14,7 @@ def solution(tickets):
         while graph[airport]:
             next_airport = heapq.heappop(graph[airport])
             dfs(next_airport)
-        path.append(airport)
+        path.insert(0, airport)
 
     dfs("ICN")  # 항상 ICN에서 시작
-    return path[::-1]  # 역순으로 반환
+    return path
