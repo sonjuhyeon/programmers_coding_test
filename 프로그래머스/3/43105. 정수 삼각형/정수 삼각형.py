@@ -17,7 +17,7 @@ def get_max_lst(now_level, next_level):
 def solution(triangle):
     tri_len = len(triangle)
     answer_lst = triangle[0]
-    for level in range(tri_len - 1):
-        answer_lst = get_max_lst(answer_lst, triangle[level + 1])
+    for level in range(1, tri_len):
+        answer_lst = get_max_lst(answer_lst, triangle[level])
     answer = max(answer_lst)
     return answer
