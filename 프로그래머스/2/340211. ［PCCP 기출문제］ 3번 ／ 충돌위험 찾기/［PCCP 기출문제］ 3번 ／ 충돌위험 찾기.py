@@ -1,4 +1,5 @@
 from itertools import zip_longest
+from collections import defaultdict
 
 def get_path(route, points):
     res = []
@@ -42,21 +43,19 @@ def get_path(route, points):
 #     return res
 
 def solution(points, routes):
-    from collections import defaultdict
-    from itertools import zip_longest
 
     paths = [get_path(route, points) for route in routes]
-    # transposed_paths = transpose_matrix(paths)
     transposed_paths = zip_longest(*paths, fillvalue=None)
+    # transposed_paths = transpose_matrix(paths)
 
     answer = 0
     for column in transposed_paths:
-        freq = {}
+        freq = defaultdict(int)
         for val in column:
             if val is None:
                 continue
             key = tuple(val)
-            freq[key] = freq.get(key, 0) + 1
+            freq[key] += 1
         answer += sum(1 for cnt in freq.values() if cnt > 1)
 
     return answer
