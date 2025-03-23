@@ -2,29 +2,26 @@ from itertools import zip_longest
 
 def get_path(route, points):
     res = []
-        
+
     for i in range(len(route) - 1):
-        start, end = points[route[i] - 1], points[route[i + 1] - 1]
-        row, col = start[0], start[1]
-        
+        start = points[route[i] - 1]
+        end = points[route[i + 1] - 1]
+
+        row, col = start
+        d_row = 1 if end[0] > row else -1
+        d_col = 1 if end[1] > col else -1
+
         # row 방향으로 먼저 이동
-        for _ in range(abs(start[0] - end[0])):
+        while row != end[0]:
             res.append([row, col])
-            if start[0] < end[0]:
-                row += 1
-            else:
-                row -= 1
-                
-        # column 방향이동
-        for _ in range(abs(start[1] - end[1])):
+            row += d_row
+
+        # col 방향으로 이동
+        while col != end[1]:
             res.append([row, col])
-            if start[1] < end[1]:
-                col += 1
-            else:
-                col -= 1
-        
+            col += d_col
+
     res.append([row, col])
-            
     return res
 
 # # 열의 길이가 다른 2차원 배열 전치
@@ -44,41 +41,22 @@ def get_path(route, points):
     
 #     return res
 
-def count_duplicates(arr):
-    counts = []
-
-    for val in arr:
-        if val is None:
-            continue  # None은 제외
-
-        found = False
-        for i in range(len(counts)):
-            if counts[i][0] == val:
-                counts[i][1] += 1
-                found = True
-                break
-        if not found:
-            counts.append([val, 1])
-
-    # 중복된 값 개수 세기 (2번 이상 등장)
-    duplicate_count = 0
-    for item, cnt in counts:
-        if cnt > 1:
-            duplicate_count += 1
-
-    return duplicate_count
-
 def solution(points, routes):
-    answer = 0
-    paths = []
-    
-    for route in routes:
-        paths.append(get_path(route, points))
-        
+    from collections import defaultdict
+    from itertools import zip_longest
+
+    paths = [get_path(route, points) for route in routes]
     # transposed_paths = transpose_matrix(paths)
-    transposed_paths = list(zip_longest(*paths, fillvalue=None))
-    
-    for path in transposed_paths:
-        answer += count_duplicates(path)
-        
+    transposed_paths = zip_longest(*paths, fillvalue=None)
+
+    answer = 0
+    for column in transposed_paths:
+        freq = {}
+        for val in column:
+            if val is None:
+                continue
+            key = tuple(val)
+            freq[key] = freq.get(key, 0) + 1
+        answer += sum(1 for cnt in freq.values() if cnt > 1)
+
     return answer
