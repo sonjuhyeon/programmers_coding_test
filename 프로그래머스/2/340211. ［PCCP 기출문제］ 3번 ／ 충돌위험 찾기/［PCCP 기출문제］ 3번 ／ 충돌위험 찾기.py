@@ -1,3 +1,5 @@
+from itertools import zip_longest
+
 def get_path(route, points):
     res = []
         
@@ -25,22 +27,22 @@ def get_path(route, points):
             
     return res
 
-# 열의 길이가 다른 2차원 배열 전치
-def transpose_matrix(matrix):
-    max_len = max(len(row) for row in matrix) # 가장 긴 행의 길이
+# # 열의 길이가 다른 2차원 배열 전치
+# def transpose_matrix(matrix):
+#     max_len = max(len(row) for row in matrix) # 가장 긴 행의 길이
 
-    res = []
-    # 열 인덱스를 기준으로 순회
-    for i in range(max_len):
-        transposed_row = []
-        for row in matrix:
-            if i < len(row):
-                transposed_row.append(row[i])
-            else:
-                transposed_row.append(None) # 부족한 부분은 None으로 채움
-        res.append(transposed_row)
+#     res = []
+#     # 열 인덱스를 기준으로 순회
+#     for i in range(max_len):
+#         transposed_row = []
+#         for row in matrix:
+#             if i < len(row):
+#                 transposed_row.append(row[i])
+#             else:
+#                 transposed_row.append(None) # 부족한 부분은 None으로 채움
+#         res.append(transposed_row)
     
-    return res
+#     return res
 
 def count_duplicates(arr):
     counts = []
@@ -73,7 +75,8 @@ def solution(points, routes):
     for route in routes:
         paths.append(get_path(route, points))
         
-    transposed_paths = transpose_matrix(paths)
+    # transposed_paths = transpose_matrix(paths)
+    transposed_paths = list(zip_longest(*paths, fillvalue=None))
     
     for path in transposed_paths:
         answer += count_duplicates(path)
