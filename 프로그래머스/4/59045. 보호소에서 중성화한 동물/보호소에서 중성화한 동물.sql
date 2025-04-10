@@ -5,4 +5,4 @@ WHERE
     SEX_UPON_INTAKE LIKE '%Intact%' AND
     (SEX_UPON_OUTCOME LIKE '%Spayed%' OR
     SEX_UPON_OUTCOME LIKE '%Neutered%')
-    
+ORDER BY AI.ANIMAL_ID
