@@ -35,7 +35,7 @@ def solution(fees, records):
         if io == "OUT":
             parking_time[car_num] += get_parking_time(cars_io[car_num][-2], time)
     
-    for car_num in cars_io:
+    for car_num in cars_io: # 출차기록 없는 경우
         if len(cars_io[car_num]) % 2 == 1:
             parking_time[car_num] += get_parking_time(cars_io[car_num][-1], "23:59")
     
