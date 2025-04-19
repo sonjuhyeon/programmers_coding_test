@@ -1,18 +1,13 @@
-from collections import deque
-
 def solution(s):
-    dq = deque(s)
-    check_s = deque()
+    answer = True
+    stack = []
     
-    while dq:
-        if '(' == dq.popleft():
-            check_s.append('(')
-        else:
-            if check_s:
-                check_s.popleft()
+    for char in s:
+        if stack:
+            if char == '(':
+                stack.append(char)
             else:
-                return False
-    
-    if check_s:
-        return False
-    return True
+                stack.pop()
+        else:
+            stack.append(char)
+    return False if stack else True
