@@ -1,14 +1,11 @@
 def solution(skill, skill_trees):
     answer = 0
-    for i, tree in enumerate(skill_trees):
+    for s_tree in skill_trees:
         tmp = ''
-        for char in tree:
-            if char in skill:
-                tmp += char
-        skill_trees[i] = tmp
-    
-    for tree in skill_trees:
-        length = len(tree)
-        if skill[:length] == tree:
+        for s in s_tree:
+            if s in skill:
+                tmp += s
+        if skill[:len(tmp)] == tmp:
             answer += 1
+    
     return answer
