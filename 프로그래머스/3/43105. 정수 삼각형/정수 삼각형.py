@@ -8,10 +8,7 @@ def get_max_lst(now_level, next_level):
         else:
             left = next_level[i] + now_level[i - 1]
             right = next_level[i] + now_level[i]
-            if left > right:
-                res[i] = left
-            else:
-                res[i] = right
+            res[i] = max(left, right)
     return (res)
 
 def solution(triangle):
